@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/DylanLogan2581/InugoCRM-Wordpress-Plugin">
-    <img src="https://inugocrm.com/wp-content/uploads/2022/03/jhfj.png" alt="Logo" width="80" height="80">
+    <img src="https://inugocrm.com/wp-content/uploads/2022/03/jhfj.png" alt="Logo" width="120" height="80">
   </a>
 
 <h3 align="center">InugoCRM Wordpress Plugin</h3>
