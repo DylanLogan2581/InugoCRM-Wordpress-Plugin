@@ -68,7 +68,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<1-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 The InugoCRM Wordpress Plugin is a Wordpress Plugin to allow you to automatically send leads from form submissions straight into your CRM account.
 
