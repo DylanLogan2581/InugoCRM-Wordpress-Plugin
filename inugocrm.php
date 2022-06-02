@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Inugo CRM Plugin
+ * Plugin Name: Inugo CRM Connection
  * Plugin URI: https://digital-55.com/contact
  * Description: Allows Gravityforms submissions to create leads in the Inugo CRM using the v2 API.
  * Version: 0.1
