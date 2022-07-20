@@ -145,7 +145,7 @@ class InugoCRMOptions {
 
 	public function inugoPassword_callback() {
 		printf(
-			'<input class="regular-text" type="text" name="inugo_crm_options_option_name[inugoPassword]" id="inugoPassword" value="%s">',
+			'<input class="regular-text" type="password" name="inugo_crm_options_option_name[inugoPassword]" id="inugoPassword" value="%s">',
 			isset( $this->inugoCRMOptions['inugoPassword'] ) ? esc_attr( $this->inugoCRMOptions['inugoPassword']) : ''
 		);
 	}
