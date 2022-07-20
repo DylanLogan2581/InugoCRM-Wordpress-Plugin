@@ -254,7 +254,7 @@ function gravityforms_prepare_data( $entry, $form ) {
 				$country_field_id = $field_id;
 				break;
 		}
-		if (state_field_id == null) {
+		if ($state_field_id == null) {
 			$crm_state = "Ohio";
 		} else {
 			$crm_state = rgar($entry, $state_field_id);
