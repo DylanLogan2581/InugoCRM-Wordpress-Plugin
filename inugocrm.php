@@ -9,7 +9,6 @@
  * Author URI: mailto:dlogan@digital-55.com
  * License: GNU General Public License, version 2 or later.
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Update URI: https://inugocrm.com/plugins/inugocrm
  */
 
 register_uninstall_hook(__FILE__, 'inugoPluginUninstall');
@@ -292,7 +291,7 @@ function post_to_crm( $data ) {
 	//API endpoint for authentication
 	$authurl = "https://crm2.0.priyanet.com/CRMServicesHost/token";
 
-    //Authenticate With CRM
+    	//Authenticate With CRM
 	$inugoCRMOptions = get_option( 'inugo_crm_options_option_name' );
 	$loginString = 'grant_type=password&username=' . $inugoCRMOptions['inugoUsername'] . '&password=' . $inugoCRMOptions['inugoPassword'] . '&clientId=' . $inugoCRMOptions['inugoClientID'];
 	$authPost = curl_init();
@@ -313,7 +312,7 @@ function post_to_crm( $data ) {
 
 	//API endpoint for posting leads
 	$leadsUrl = "https://crm2.0.priyanet.com/CRMServicesHost/api/1/websiteapi/InsertUpdateLeadDetails";
-    //Send the data to the CRM
+    	//Send the data to the CRM
 	$leadPost = curl_init();
 	curl_setopt($leadPost, CURLOPT_URL, $leadsUrl);
 	$finalData = json_encode($data);
@@ -327,7 +326,7 @@ function post_to_crm( $data ) {
 
 	$postResult = curl_exec($leadPost);
 	curl_close($leadPost);
-    // Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
+    	// Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
 	//echo $postResult;
 }
 
