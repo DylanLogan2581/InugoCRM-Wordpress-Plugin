@@ -66,6 +66,43 @@ class InugoCRMOptions {
 					submit_button();
 				?>
 			</form>
+			                        <?php
+                        // This section adds a button for testing the (saved) credentials to see if they are valid by authenticating with the CRM.
+                        ?>
+                        <p>You must save credentials before testing.</p>
+                        <form method="post">
+                                <button name="Test_Login" type="submit" value="Test_Login" id="Test_Login" class="button-primary">Test Login</button>
+                        </form>
+                        <?php
+                        if(array_key_exists('Test_Login', $_POST)){
+                                //API endpoint for authentication
+                                $authurl = "https://crm2.0.priyanet.com/CRMServicesHost/token";
+                                //Authenticate With CRM
+                                $inugoCRMOptions = get_option( 'inugo_crm_options_option_name' );
+                                $loginString = 'grant_type=password&username=' . $inugoCRMOptions['inugoUsername'] . '&password=' . $inugoCRMOptions['inugoPassword'] . '&clientId=' . $inugoCRMOptions['inugoClientID'];
+                                $authPost = curl_init();
+                                curl_setopt($authPost, CURLOPT_URL, $authurl);
+                                curl_setopt($authPost, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($authPost, CURLOPT_HTTPHEADER, array(
+                                        'Content-Type: application/x-www-form-urlencoded',
+                                        'Accept: application/json'
+                                ));
+                                curl_setopt($authPost, CURLOPT_POSTFIELDS, $loginString);
+                                $authResult = curl_exec($authPost);
+                                curl_close($authPost);
+                                if($authResult == "{\"error\":\"Wrong credentials..\"}") {
+                                        echo("<p style='color: red;'>ERROR: Invalid Credentials Detected</p>");
+                                } else {
+                                        $authResultArray = json_decode($authResult);
+                                        $accessToken = $authResultArray->access_token;
+                                        if($accessToken) {
+                                                echo("<p style='color: green;'>An access token was successfully retrieved. Your login credentials are valid.</p>");
+                                        } else {
+                                                echo("<p style='color: red;'>ERROR: Your credentials are not invalid, but you did not recieve an access token!</p>");
+                                        }
+                                }
+                        }
+                        ?>
 		</div>
 	<?php }
 
@@ -333,6 +370,7 @@ function post_to_crm( $data ) {
 /*
  *
  *Add a new field to each field in the gravity forms field editor for the CRM field identifier.
+ *
  *
 */
 add_action( 'gform_field_standard_settings', 'inugoGformSettings', 10, 2 );
