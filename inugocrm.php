@@ -204,7 +204,8 @@ if ( is_admin() )
  *
 */
 function gravityforms_prepare_data( $entry, $form ) {
-	//echo '<pre>'; print_r($form); echo '</pre>';
+	echo '<pre>'; print_r($form); echo '</pre>';
+	echo '<pre>'; print_r($entry); echo '</pre>';
 	/*
 	* Debug Statement, Print FORM array on form submission.
 	*/
@@ -231,6 +232,7 @@ function gravityforms_prepare_data( $entry, $form ) {
 	$company_name_field_id = null;
 	$company_dba_field_id = null;
 	$website_field_id = null;
+	$notes_field_id = null;
 
 	foreach ( $form['fields'] as $field ) {
 		if ( ! isset( $field['inugoCRMField'] ) || ! isset( $field['id'] ) ) {
@@ -313,6 +315,9 @@ function gravityforms_prepare_data( $entry, $form ) {
 			case "crm_website":
 				$website_field_id = $field_id;
 				break;
+			case "crm_notes":
+				$notes_field_id = $field_id;
+				break;
 		}
 
 		if ($state_field_id == null) {
@@ -343,9 +348,15 @@ function gravityforms_prepare_data( $entry, $form ) {
 		} else {
 			$lead_status = rgar($entry, $lead_status_field_id);
 		}
-
-
-
+		
+		if (!isset($crm_notes)) {
+			$crm_notes = "";
+		}
+		if ($notes_field_id == null) {
+		} else {
+			$crm_new_notes = rgar($entry, $notes_field_id);
+			$crm_notes = $crm_notes . " " . $crm_new_notes;
+		}
 	}
 	$data = array(
 		"Title"=> rgar( $entry, $prefix_field_id ), //works
@@ -370,7 +381,9 @@ function gravityforms_prepare_data( $entry, $form ) {
 		"LeadStatus"=> $lead_status, //works
 		"CompanyName"=> rgar( $entry, $company_name_field_id ),
 		"CompanyDBA"=> rgar( $entry, $company_dba_field_id ),
+		"Notes"=> $crm_notes,
 	);
+	echo '<pre>'; print_r($data); echo '</pre>';
 	post_to_crm( $data );
 }
 /*
@@ -400,7 +413,7 @@ function post_to_crm( $data ) {
 	$accessToken = $authResultArray->access_token;
 
 	//Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
-	//echo $authResult;
+	echo $authResult;
 
 	//API endpoint for posting leads
 	$leadsUrl = "https://crm2.0.priyanet.com/CRMServicesHost/api/1/websiteapi/InsertUpdateLeadDetails";
@@ -419,7 +432,8 @@ function post_to_crm( $data ) {
 	$postResult = curl_exec($leadPost);
 	curl_close($leadPost);
     	// Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
-	//echo $postResult;
+	echo $postResult;
+	$homedir = getenv(HOME);
 }
 
 /*
