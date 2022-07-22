@@ -471,13 +471,50 @@ add_action( 'gform_editor_js', 'editor_script' );
 function editor_script(){
     ?>
     <script type='text/javascript'>
-		//adding crm field to fields of types "phone" "text" "name" "email" "textarea" "address"
-		fieldSettings.phone += ', .inugo_setting';
-		fieldSettings.text += ', .inugo_setting';
-		fieldSettings.name += ', .inugo_setting';
-		fieldSettings.email += ', .inugo_setting';
-		fieldSettings.textarea += ', .inugo_setting';
-		fieldSettings.address += ', .inugo_setting';
+		//adding crm field to all default gf fields
+                fieldSettings.address += ', .inugo_setting';
+                fieldSettings.calculation += ', .inugo_setting';
+                fieldSettings.captcha += ', .inugo_setting';
+                fieldSettings.checkbox += ', .inugo_setting';
+                fieldSettings.consent += ', .inugo_setting';
+                fieldSettings.creditcard += ', .inugo_setting';
+                fieldSettings.date += ', .inugo_setting';
+                fieldSettings.donation += ', .inugo_setting';
+                fieldSettings.email += ', .inugo_setting';
+                fieldSettings.fileupload += ', .inugo_setting';
+                fieldSettings.hidden += ', .inugo_setting';
+                fieldSettings.hiddenproduct += ', .inugo_setting';
+                fieldSettings.html += ', .inugo_setting';
+                fieldSettings.list += ', .inugo_setting';
+                fieldSettings.multiselect += ', .inugo_setting';
+                fieldSettings.name += ', .inugo_setting';
+                fieldSettings.number += ', .inugo_setting';
+                fieldSettings.option += ', .inugo_setting';
+                fieldSettings.page += ', .inugo_setting';
+                fieldSettings.password += ', .inugo_setting';
+                fieldSettings.phone += ', .inugo_setting';
+                fieldSettings.post_category += ', .inugo_setting';
+                fieldSettings.post_content += ', .inugo_setting';
+                fieldSettings.post_custom_field += ', .inugo_setting';
+                fieldSettings.post_excerpt += ', .inugo_setting';
+                fieldSettings.post_image += ', .inugo_setting';
+                fieldSettings.post_tags += ', .inugo_setting';
+                fieldSettings.post_title += ', .inugo_setting';
+                fieldSettings.price += ', .inugo_setting';
+                fieldSettings.product += ', .inugo_setting';
+                fieldSettings.quantity += ', .inugo_setting';
+                fieldSettings.radio += ', .inugo_setting';
+                fieldSettings.repeater += ', .inugo_setting';
+                fieldSettings.section += ', .inugo_setting';
+                fieldSettings.select += ', .inugo_setting';
+                fieldSettings.shipping += ', .inugo_setting';
+                fieldSettings.singleproduct += ', .inugo_setting';
+                fieldSettings.singleshipping += ', .inugo_setting';
+                fieldSettings.text += ', .inugo_setting';
+                fieldSettings.textarea += ', .inugo_setting';
+                fieldSettings.time += ', .inugo_setting';
+                fieldSettings.total += ', .inugo_setting';
+                fieldSettings.website += ', .inugo_setting';
 		//binding to the load field settings event to initialize the checkbox
 		jQuery(document).bind('gform_load_field_settings', function(event, field, form){
 			jQuery("#field_crm_value").val( rgar( field, 'inugoCRMField' ) );
