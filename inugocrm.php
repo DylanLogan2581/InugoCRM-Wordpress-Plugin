@@ -217,13 +217,20 @@ function gravityforms_prepare_data( $entry, $form ) {
 	$email_field_id = null;
 	$phonenumber_field_id = null;
 	$phoneextension_field_id = null;
+	$phonemobile_field_id = null;
 	$fax_field_id = null;
 	$address_field_id = null;
 	$address2_field_id = null;
 	$city_field_id = null;
 	$zipcode_field_id = null;
+	$county_field_id = null;
 	$state_field_id = null;
 	$country_field_id = null;
+	$lead_source_field_id = null;
+	$lead_status_field_id = null;
+	$company_name_field_id = null;
+	$company_dba_field_id = null;
+	$website_field_id = null;
 
 	foreach ( $form['fields'] as $field ) {
 		if ( ! isset( $field['inugoCRMField'] ) || ! isset( $field['id'] ) ) {
@@ -257,6 +264,8 @@ function gravityforms_prepare_data( $entry, $form ) {
 			case "crm_phone_extension":
 				$phoneextension_field_id = $field_id;
 				break;
+			case "crm_phone_mobile":
+				$phonemobile_field_id = $field_id;
 			case "crm_fax":
 				$fax_field_id = $field_id;
 				break;
@@ -289,12 +298,54 @@ function gravityforms_prepare_data( $entry, $form ) {
 			case "crm_country":
 				$country_field_id = $field_id;
 				break;
+			case "crm_lead_source":
+				$lead_source_field_id = $field_id;
+				break;
+			case "crm_lead_status":
+				$lead_status_field_id = $field_id;
+				break;
+			case "crm_company_name":
+				$company_name_field_id = $field_id;
+				break;
+			case "crm_company_dba":
+				$company_dba_field_id = $field_id;
+				break;
+			case "crm_website":
+				$website_field_id = $field_id;
+				break;
 		}
+
 		if ($state_field_id == null) {
 			$crm_state = "Ohio";
 		} else {
 			$crm_state = rgar($entry, $state_field_id);
 		}
+
+		if ($country_field_id == null) {
+			$crm_country = "USA";
+		} else {
+			$crm_country = rgar($entry, $country_field_id);
+                        if(!$crm_country) {
+                                $crm_country = "USA";
+                        } else if($crm_country == "United States") {
+                                $crm_country = "USA";
+                        }
+		}
+
+		if ($lead_source_field_id == null) {
+			$lead_source = "Website";
+		} else {
+			$lead_source = rgar($entry, $lead_source_field_id);
+		}
+
+		if ($lead_status_field_id == null) {
+			$lead_status = "Cold";
+		} else {
+			$lead_status = rgar($entry, $lead_status_field_id);
+		}
+
+
+
 	}
 	$data = array(
 		"Title"=> rgar( $entry, $prefix_field_id ), //works
@@ -302,19 +353,23 @@ function gravityforms_prepare_data( $entry, $form ) {
 		"MiddleName"=> rgar( $entry, $middlename_field_id ),    //Does not fill any fields.
 		"LastName"=> rgar( $entry, $lastname_field_id ), //works
 		"Phone"=> rgar( $entry, $phone_field_id ), //works
-		"PhoneExt"=> rgar( $entry, $phoneextension_id ), //Does not fill any fields. 
+		"PhoneExt"=> rgar( $entry, $phoneextension_field_id ),
+		"Mobile"=> rgar( $entry, $phonemobile_field_id ),
 		"Fax"=> rgar( $entry, $fax_field_id ), //works
 		"Email"=> rgar( $entry, $email_field_id ), //works
+		"Website"=> rgar( $entry, $website_field_id ),
 		"Gender"=> "", //Does not fill any fields. Required
 		"MailingAddress"=> rgar( $entry, $address_field_id ), //works
 		"MailingAddress2"=> rgar( $entry, $address2_field_id ), //Does not fill any fields.
 		"Mailingcity"=> rgar( $entry, $zipcode_field_id ), //works
 		"Mailingzip"=> rgar( $entry, $zipcode_field_id ), //works
-		"County"=> rgar( $entry, $county_field_id), //works
+		"County"=> rgar( $entry, $county_field_id ), //works
 		"MailingStateText"=> $crm_state, //works Must be valid
-		"MailingCountryText"=> "USA", //works Must be Valid
-		"LeadSourcetext"=> "Website", //works
-		"LeadStatus"=> "Cold", //works
+		"MailingCountryText"=> $crm_country, //works Must be Valid
+		"LeadSourcetext"=> $lead_source, //works
+		"LeadStatus"=> $lead_status, //works
+		"CompanyName"=> rgar( $entry, $company_name_field_id ),
+		"CompanyDBA"=> rgar( $entry, $company_dba_field_id ),
 	);
 	post_to_crm( $data );
 }
