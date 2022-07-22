@@ -204,11 +204,6 @@ if ( is_admin() )
  *
 */
 function gravityforms_prepare_data( $entry, $form ) {
-	echo '<pre>'; print_r($form); echo '</pre>';
-	echo '<pre>'; print_r($entry); echo '</pre>';
-	/*
-	* Debug Statement, Print FORM array on form submission.
-	*/
 	$fullname_field_id = null;
 	$prefix_field_id = null;
 	$firstname_field_id = null;
@@ -383,7 +378,6 @@ function gravityforms_prepare_data( $entry, $form ) {
 		"CompanyDBA"=> rgar( $entry, $company_dba_field_id ),
 		"Notes"=> $crm_notes,
 	);
-	echo '<pre>'; print_r($data); echo '</pre>';
 	post_to_crm( $data );
 }
 /*
@@ -413,7 +407,7 @@ function post_to_crm( $data ) {
 	$accessToken = $authResultArray->access_token;
 
 	//Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
-	echo $authResult;
+	//echo $authResult;
 
 	//API endpoint for posting leads
 	$leadsUrl = "https://crm2.0.priyanet.com/CRMServicesHost/api/1/websiteapi/InsertUpdateLeadDetails";
@@ -432,8 +426,22 @@ function post_to_crm( $data ) {
 	$postResult = curl_exec($leadPost);
 	curl_close($leadPost);
     	// Uncomment the line below this to print the output. If you see a weird page glitch when submitting a form, comment this line.
-	echo $postResult;
-	$homedir = getenv(HOME);
+	//echo $postResult;
+	
+	//Define the log file
+        $docroot = $_SERVER['DOCUMENT_ROOT'];
+        $logfile = $docroot . "/inugocrm.log";
+
+        //Regular log message
+        $log_message = "Form: " . $form['title'] . " Post Result: " . $postResult . " Auth Result: " . $authResult . "\n";
+        error_log($log_message, 3, $logfile);
+
+        //Debug log message with array info (WARNING: MANY LINES)
+        $formarray = print_r($form, true);
+        $entryarray = print_r($entry, true);
+        $dataarray = print_r($data, true);
+        $debug_message = "Form Array: " . $formarray . " Entry Array: " . $entryarray . " Post data array: " . $dataarray . "\n";
+        //error_log($debug_message, 3, $logfile);
 }
 
 /*
